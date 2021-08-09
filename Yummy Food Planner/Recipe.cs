@@ -6,6 +6,7 @@ namespace Model
 {
     public class Recipe : SimpleRecipe, IRecipe
     {
+        public event EventHandler<EventArgs> RecipeUpdated;   
         public bool ExistsInDatabase { get; set; }
         public string Notes { get; set; }
         public List<Ingredient> Ingredients { get; set; }

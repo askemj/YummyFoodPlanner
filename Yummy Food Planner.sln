@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30309.148
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31521.260
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "Yummy Food Planner\View.csproj", "{A5050200-63CE-412C-845A-D030E151B305}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{BC9D0210-FA3E-4CB8-BA8F-6317D1CBDD78}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presenter", "Presenter\Presenter.csproj", "{B32F0AAB-2C6F-43CF-AA93-5D6B0C1827C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YummyFoodPlanner", "Yummy Food Planner\YummyFoodPlanner.csproj", "{A5050200-63CE-412C-845A-D030E151B305}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +15,6 @@ Global
 		{A5050200-63CE-412C-845A-D030E151B305}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5050200-63CE-412C-845A-D030E151B305}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5050200-63CE-412C-845A-D030E151B305}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC9D0210-FA3E-4CB8-BA8F-6317D1CBDD78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC9D0210-FA3E-4CB8-BA8F-6317D1CBDD78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC9D0210-FA3E-4CB8-BA8F-6317D1CBDD78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC9D0210-FA3E-4CB8-BA8F-6317D1CBDD78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B32F0AAB-2C6F-43CF-AA93-5D6B0C1827C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B32F0AAB-2C6F-43CF-AA93-5D6B0C1827C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B32F0AAB-2C6F-43CF-AA93-5D6B0C1827C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B32F0AAB-2C6F-43CF-AA93-5D6B0C1827C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

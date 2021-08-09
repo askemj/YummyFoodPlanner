@@ -1,4 +1,4 @@
-﻿namespace Yummy_Food_Planner
+﻿namespace View
 {
     partial class MainWindow
     {
@@ -28,13 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.recipeNavigatorView1 = new View.RecipeNavigatorView();
+            this.SuspendLayout();
+            // 
+            // recipeNavigatorView1
+            // 
+            this.recipeNavigatorView1.Ingredients = null;
+            this.recipeNavigatorView1.ListOfRecipes = null;
+            this.recipeNavigatorView1.Location = new System.Drawing.Point(221, 163);
+            this.recipeNavigatorView1.Name = "recipeNavigatorView1";
+            this.recipeNavigatorView1.Notes = null;
+            this.recipeNavigatorView1.NumberOfServings = 0;
+            this.recipeNavigatorView1.PreparationTime = 0;
+            this.recipeNavigatorView1.RecipeType = null;
+            this.recipeNavigatorView1.Size = new System.Drawing.Size(479, 268);
+            this.recipeNavigatorView1.TabIndex = 0;
+            this.recipeNavigatorView1.Tags = null;
+            this.recipeNavigatorView1.TotalTime = 0;
+            this.recipeNavigatorView1.Load += new System.EventHandler(this.recipeNavigatorView1_Load);
+            // 
+            // MainWindow
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(881, 573);
+            this.Controls.Add(this.recipeNavigatorView1);
+            this.Name = "MainWindow";
+            this.Text = "Yummy Food Planner";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private View.RecipeNavigatorView recipeNavigatorView1;
     }
 }
 

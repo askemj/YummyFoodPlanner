@@ -7,15 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Model;
+using Presenter;
 
-namespace Yummy_Food_Planner
+namespace View
 {
     public partial class MainWindow : Form
     {
+        private readonly ShoppingList shoppingList;
+        private RecipeNavigatorPresenter recipeNavigatorPresenter; 
         public MainWindow()
         {
+            this.shoppingList = new ShoppingList();
             InitializeComponent();
         }
 
+        private void recipeNavigatorView1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

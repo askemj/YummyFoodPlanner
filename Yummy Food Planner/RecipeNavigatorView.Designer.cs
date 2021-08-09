@@ -1,4 +1,4 @@
-﻿namespace Yummy_Food_Planner
+﻿namespace View
 {
     partial class RecipeNavigatorView
     {
@@ -28,10 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.lvMenu = new System.Windows.Forms.ListView();
+            this.tbRecipe = new System.Windows.Forms.TextBox();
+            this.tbSearchField = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // lvMenu
+            // 
+            this.lvMenu.HideSelection = false;
+            this.lvMenu.Location = new System.Drawing.Point(12, 22);
+            this.lvMenu.Name = "lvMenu";
+            this.lvMenu.Size = new System.Drawing.Size(151, 121);
+            this.lvMenu.TabIndex = 0;
+            this.lvMenu.UseCompatibleStateImageBehavior = false;
+            // 
+            // tbRecipe
+            // 
+            this.tbRecipe.Location = new System.Drawing.Point(185, 22);
+            this.tbRecipe.Multiline = true;
+            this.tbRecipe.Name = "tbRecipe";
+            this.tbRecipe.Size = new System.Drawing.Size(182, 165);
+            this.tbRecipe.TabIndex = 1;
+            // 
+            // tbSearchField
+            // 
+            this.tbSearchField.Location = new System.Drawing.Point(12, 160);
+            this.tbSearchField.Name = "tbSearchField";
+            this.tbSearchField.Size = new System.Drawing.Size(151, 27);
+            this.tbSearchField.TabIndex = 2;
+            this.tbSearchField.TextChanged += new System.EventHandler(this.tbSearchField_TextChanged);
+            // 
+            // RecipeNavigatorView
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tbSearchField);
+            this.Controls.Add(this.tbRecipe);
+            this.Controls.Add(this.lvMenu);
+            this.Name = "RecipeNavigatorView";
+            this.Size = new System.Drawing.Size(383, 214);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.ListView lvMenu;
+        private System.Windows.Forms.TextBox tbRecipe;
+        private System.Windows.Forms.TextBox tbSearchField;
     }
 }

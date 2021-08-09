@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Model; 
 
-namespace Yummy_Food_Planner
+namespace View
 {
-    interface IRecipeNavigatorView
+    public interface IRecipeNavigatorView
     {
         List<SimpleRecipe> ListOfRecipes { get; set; }
         event EventHandler RecipeSelected;

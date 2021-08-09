@@ -15,16 +15,16 @@ namespace Model
         public static void SetupConnection()
         {
             ConnectionStringBuilder.Port = 3306;
-            ConnectionStringBuilder.Server = ip;
+            ConnectionStringBuilder.Server = "192.168";
             ConnectionStringBuilder.Database = "opskrifter";
-            ConnectionStringBuilder.UserID = u;
-            ConnectionStringBuilder.Password = p;
+            ConnectionStringBuilder.UserID = "xxx";
+            ConnectionStringBuilder.Password = "xxx";
             SqlConnection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
         }
 
-        public static List<string> GetRecipeDetails(string recipeID)
+        public static Dictionary<string, string> GetRecipeInfo(string recipeID)
         {
-            List<string> recipeDetails = new List<string>();
+            Dictionary<string, string> recipeInfo = new Dictionary<string, string>();
             string sqlQueryStr = $"SELECT Ret.ret_id, Ret.noter, Ret.antal_portioner, Tilberedningstid.tilberedningstid_tid, " +
                 "Arbejdstid.arbejdstid_tid, Opskriftstype.opskriftstype_tekst " +
                 "FROM Ret, Tilberedningstid, Arbejdstid, Opskriftstype " +
@@ -38,14 +38,26 @@ namespace Model
                 SqlConnection.Open();
                 MySqlCommand sqlCommand = new MySqlCommand(sqlQueryStr, SqlConnection);
                 MySqlDataReader reader = sqlCommand.ExecuteReader();
+
+                //while (reader.Read())
+                //{
+                //    recipeDetails.Add(reader[0].ToString());
+                //    recipeDetails.Add(reader[1].ToString());
+                //    recipeDetails.Add(reader[2].ToString());
+                //    recipeDetails.Add(reader[3].ToString());
+                //    recipeDetails.Add(reader[4].ToString());
+                //    recipeDetails.Add(reader[5].ToString());
+                //}
+                //Console.WriteLine("GroceryApp: Query OK");
+
                 while (reader.Read())
                 {
-                    recipeDetails.Add(reader[0].ToString());
-                    recipeDetails.Add(reader[1].ToString());
-                    recipeDetails.Add(reader[2].ToString());
-                    recipeDetails.Add(reader[3].ToString());
-                    recipeDetails.Add(reader[4].ToString());
-                    recipeDetails.Add(reader[5].ToString());
+                    recipeInfo.Add("ID", reader[0].ToString() );
+                    recipeInfo.Add("Notes", reader[1].ToString() );
+                    recipeInfo.Add("Number of Servings", reader[2].ToString() );
+                    recipeInfo.Add("Preparation Time", reader[3].ToString() );
+                    recipeInfo.Add("Total Time", reader[4].ToString() );
+                    recipeInfo.Add("Recipe Type", reader[5].ToString() );
                 }
                 Console.WriteLine("GroceryApp: Query OK");
             }
@@ -60,7 +72,19 @@ namespace Model
                     SqlConnection.Close();
                 }
             }
-            return recipeDetails;
+            return recipeInfo;
+        }
+
+        public static List<string> GetTags(string recipeName)
+        {
+            List<string> sqlResult = new List<string>();
+            string sqlString = "SELECT Tag.tag_tekst " +
+            "FROM Ret, RetTag, Tag " +
+            "WHERE Ret.ret_id = RetTag.Ret_ret_id " +
+            "AND Tag.tag_id = RetTag.Tag_tag_id " +
+            "AND Ret.ret_navn = \"" + recipeName + "\"";
+            // sqlResult = SqlListQuery(sqlString);
+            return sqlResult;
         }
 
         public static DataTable GetRecipeIngredients() { 

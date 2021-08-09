@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Model; 
 
 namespace Model
 {
     public interface IRecipe
     {
+        public event EventHandler<EventArgs> RecipeUpdated;  
         int ID { get; set; }
         // bool ExistsInDatabase { get; set; } ... vil ikke blive vist 
         string Name { get; set; }
