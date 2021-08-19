@@ -6,7 +6,7 @@ namespace Model
 {
     public class Menu : IMenu
     {
-        public event EventHandler<EventArgs> MenuUpdated;
+        public event EventHandler<MenuEventArgs> MenuUpdated;
         public List<string> MenuList { get; set; }
         public Menu()
         {
@@ -27,7 +27,17 @@ namespace Model
 
         public void RaiseMenuUpdatedEvent()
         {
-            MenuUpdated?.Invoke(this, new EventArgs());
+            MenuUpdated?.Invoke(this, new MenuEventArgs(this));
+        }
+    }
+
+    public class MenuEventArgs : EventArgs
+    {
+        public Menu menu { get; set;}   
+
+        public MenuEventArgs(Menu _menu)
+        {
+            this.menu = _menu;  
         }
     }
 }

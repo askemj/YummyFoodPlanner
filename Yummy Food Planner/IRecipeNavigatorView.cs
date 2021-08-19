@@ -8,8 +8,7 @@ namespace View
     public interface IRecipeNavigatorView
     {
         List<SimpleRecipe> ListOfRecipes { get; set; }
-        event EventHandler RecipeSelected;
-        event EventHandler SearchFieldChanged; 
+
         string Name { get; set; }
         string Notes { get; set; }
         int PreparationTime { get; set; }

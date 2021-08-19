@@ -12,12 +12,10 @@ namespace View
 {
     public partial class RecipeNavigatorView : UserControl, IRecipeNavigatorView
     {
-        private RecipeNavigatorPresenter presenter = null;
-        private readonly IRecipe recipe = null;
-        private readonly IMenu menu;
+        private RecipeNavigatorPresenter presenter;
+        private IRecipe recipe;
+        public IMenu Menu;
         public List<SimpleRecipe> ListOfRecipes { get; set; }
-        public event EventHandler RecipeSelected; // de her skal vaek
-        public event EventHandler SearchFieldChanged; //de her skal vaek
         public string Name { get; set; }
         public string Notes { get; set; }
         public int PreparationTime { get; set; }
@@ -26,12 +24,16 @@ namespace View
         public string RecipeType { get; set; }
         public List<string> Tags { get; set; }
         public List<Ingredient> Ingredients { get; set; }
-        public RecipeNavigatorView(RecipeNavigatorPresenter _presenter, IRecipe _recipe, IMenu _menu)
+        public RecipeNavigatorView()
         {
-            this.presenter = _presenter;
-            this.recipe = _recipe;
-            this.menu = _menu;
             InitializeComponent();
+        }
+
+        public void Setup(RecipeNavigatorPresenter _presenter, IRecipe _recipe, IMenu _menu)
+        {
+            this.presenter = _presenter; 
+            this.recipe = _recipe;
+            this.Menu = _menu;
         }
 
         private void tbSearchField_TextChanged(object sender, EventArgs e)

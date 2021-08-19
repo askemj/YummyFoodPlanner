@@ -4,6 +4,8 @@ using System.Text;
 using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Model
 {
@@ -14,12 +16,57 @@ namespace Model
 
         public static void SetupConnection()
         {
+            Dictionary<string, string> databaseCredentials = LoadFromCredFile();
+            Console.WriteLine(databaseCredentials.ToString());
             ConnectionStringBuilder.Port = 3306;
-            ConnectionStringBuilder.Server = "192.168";
+            ConnectionStringBuilder.Server = databaseCredentials["IP"];
             ConnectionStringBuilder.Database = "opskrifter";
-            ConnectionStringBuilder.UserID = "xxx";
-            ConnectionStringBuilder.Password = "xxx";
+            ConnectionStringBuilder.UserID = databaseCredentials["Username"];
+            ConnectionStringBuilder.Password = databaseCredentials["Password"];
             SqlConnection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
+        }
+
+        public static Dictionary<string, string> LoadFromCredFile()
+        {
+            Dictionary<string, string> loginCredentials = new Dictionary<string, string>();
+
+            Regex re_pass = new Regex(@"(^Password\t+)(\w*)");
+            Regex re_user = new Regex(@"(^User\t+)(\w*)");
+            Regex re_ip = new Regex(@"(^IP\t+)(\d+.\d+.\d+.\d+)");
+
+
+            var path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\credentials.cred"));
+
+            Console.WriteLine(path);
+
+            using (StreamReader reader = new StreamReader(path)) 
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    Match match_pass = re_pass.Match(line);
+                    Match match_user = re_user.Match(line);
+                    Match match_IP = re_ip.Match(line);
+
+
+                    if (match_pass.Success)
+                    {
+                        loginCredentials.Add("Password", match_pass.Groups[2].Value.Trim());
+                    }
+
+                    if (match_user.Success)
+                    {
+                        loginCredentials.Add("Username", match_user.Groups[2].Value.Trim());
+                        Console.WriteLine(loginCredentials["Username"]);
+                    }
+
+                    if (match_IP.Success)
+                    {
+                        loginCredentials.Add("IP", match_IP.Groups[2].Value.Trim());
+                    }
+                }
+            }
+            return loginCredentials;
         }
 
         public static Dictionary<string, string> GetRecipeInfo(string recipeID)
