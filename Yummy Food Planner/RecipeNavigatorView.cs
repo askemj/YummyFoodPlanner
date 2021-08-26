@@ -16,6 +16,7 @@ namespace View
         private IRecipe recipe;
         public IMenu Menu;
         public List<SimpleRecipe> ListOfRecipes { get; set; }
+        public string SearchField { get { return tbSearchField.Text; } }
         public string Name { get; set; }
         public string Notes { get; set; }
         public int PreparationTime { get; set; }
@@ -38,7 +39,14 @@ namespace View
 
         private void tbSearchField_TextChanged(object sender, EventArgs e)
         {
-            presenter.SearchForRecipe(e.ToString());
+            Console.WriteLine("RecipeNavigaorView: tbSearchfield_TextChanged()-called");
+            
+            presenter.SearchForRecipe();
+        }
+
+        private void lvMenu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

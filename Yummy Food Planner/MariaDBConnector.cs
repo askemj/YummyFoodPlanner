@@ -24,6 +24,7 @@ namespace Model
             ConnectionStringBuilder.UserID = databaseCredentials["Username"];
             ConnectionStringBuilder.Password = databaseCredentials["Password"];
             SqlConnection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
+            Console.WriteLine("MariaDB Connection finished setting up");
         }
 
         public static Dictionary<string, string> LoadFromCredFile()
@@ -31,11 +32,12 @@ namespace Model
             Dictionary<string, string> loginCredentials = new Dictionary<string, string>();
 
             Regex re_pass = new Regex(@"(^Password\t+)(\w*)");
-            Regex re_user = new Regex(@"(^User\t+)(\w*)");
+            Regex re_user = new Regex(@"(^Username\t+)(\w*)");
             Regex re_ip = new Regex(@"(^IP\t+)(\d+.\d+.\d+.\d+)");
 
 
-            var path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\credentials.cred"));
+            var path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\..\credentials.cred"));
+            Console.WriteLine(path.ToString());
 
             Console.WriteLine(path);
 

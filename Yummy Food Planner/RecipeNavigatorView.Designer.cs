@@ -41,6 +41,7 @@
             this.lvMenu.Size = new System.Drawing.Size(151, 121);
             this.lvMenu.TabIndex = 0;
             this.lvMenu.UseCompatibleStateImageBehavior = false;
+            this.lvMenu.SelectedIndexChanged += new System.EventHandler(this.lvMenu_SelectedIndexChanged);
             // 
             // tbRecipe
             // 

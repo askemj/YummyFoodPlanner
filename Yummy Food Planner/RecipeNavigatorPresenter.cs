@@ -22,8 +22,12 @@ namespace Presenter
 
         }
 
-        public void SearchForRecipe(string key)
+
+        public void SearchForRecipe()
         {
+            Console.WriteLine("RecipeNavigatorPresenter: SearchForRecipe()-function called");
+            string key = this.view.SearchField;
+            Console.WriteLine("... with key " + key);
             menu.Search(key);
         }
     }

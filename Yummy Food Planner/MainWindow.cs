@@ -24,20 +24,29 @@ namespace View
             this.menu = new Menu();
             this.recipe = null;
             InitializeComponent();
-            recipeNavigatorPresenter = new RecipeNavigatorPresenter(this.recipeNavigatorView1, menu);
-            this.recipeNavigatorView1.Setup(recipeNavigatorPresenter, recipe, menu);
-            MariaDBConnector.SetupConnection();
-
+            recipeNavigatorPresenter = new RecipeNavigatorPresenter(this.recipeNavigatorView1, this.menu);
+            this.recipeNavigatorView1.Setup(recipeNavigatorPresenter, this.recipe, this.menu);
+            MariaDBConnector.SetupConnection(); 
+            SubscribeToMenuEvents();
         }
 
-        public void SubscribeToMenuEvents()
+        private void SubscribeToMenuEvents()
         {
+            //this.menu.MenuUpdated += MenuUpdated;            
             this.menu.MenuUpdated += MenuUpdated;
         }
 
-        public void MenuUpdated(object sender, MenuEventArgs e)
+        private void MenuUpdated(object sender, EventArgs e)//, MenuEventArgs e)
         {
-            this.recipeNavigatorView1.Menu.MenuList = e.menu.MenuList;
+            Console.WriteLine("Mainwindow: MenuUpdated()-function called");
+            //this.recipeNavigatorView1.Menu.MenuList = e.menu.MenuList;
+            //this.recipeNavigatorView1.Menu.MenuList.AddRange(e.menu.MenuList);
+            foreach (string recipe in menu.MenuList)
+            {
+                this.recipeNavigatorView1.Menu.MenuList.Add(recipe);
+            }
+            //Console.WriteLine(e.menu.MenuList.ToString());
+            
         }
 
         private void recipeNavigatorView1_Load(object sender, EventArgs e)

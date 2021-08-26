@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Model
 {
     public class Menu : IMenu
     {
-        public event EventHandler<MenuEventArgs> MenuUpdated;
+        public event EventHandler<EventArgs> MenuUpdated;
         public List<string> MenuList { get; set; }
         public Menu()
         {
-
+            MenuList = new List<string>();
         }
 
         public void Update()
@@ -21,15 +22,30 @@ namespace Model
         public void Search(string key)
         {
             // search for keyword 
+            Console.WriteLine("Menu: Search()-function called");
             MenuList.Clear(); 
             MenuList.Add("Boller I Karry");
+            OnMenuUpdate();
+            //OnMenuUpdate(new MenuEventArgs(this));
         }
 
-        public void RaiseMenuUpdatedEvent()
+        protected virtual void OnMenuUpdate()//MenuEventArgs e)
         {
-            MenuUpdated?.Invoke(this, new MenuEventArgs(this));
+            //EventHandler eventHandler = this.MenuUpdated;
+            Console.WriteLine("Menu: RaiseMenuUpdatedEvent()-function called");
+            //MenuUpdated(this, new MenuEventArgs(this));
+            if (MenuUpdated == null )
+            {
+                MessageBox.Show("Eventhandler \"MenuUpdated\" is null!");
+            }
+            if (MenuUpdated != null)
+            {
+                MessageBox.Show("Eventhandler \"MenuUpdated\" is NOT null!");
+            }
+            //eventHandler?.Invoke(this, e);
+            MenuUpdated?.Invoke(this, EventArgs.Empty); // , new MenuEventArgs(this)); 
         }
-    }
+    } 
 
     public class MenuEventArgs : EventArgs
     {
