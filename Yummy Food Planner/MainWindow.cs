@@ -18,15 +18,16 @@ namespace View
         private readonly Recipe recipe;
         private readonly Menu menu;
         private RecipeNavigatorPresenter recipeNavigatorPresenter; 
+        private MariaDBConnector dbConnection;
         public MainWindow()
         {
             this.shoppingList = new ShoppingList();
             this.menu = new Menu();
             this.recipe = null;
             InitializeComponent();
-            recipeNavigatorPresenter = new RecipeNavigatorPresenter(this.recipeNavigatorView1, this.menu);
-            this.recipeNavigatorView1.Setup(recipeNavigatorPresenter, this.recipe, this.menu);
-            MariaDBConnector.SetupConnection(); 
+            dbConnection = new MariaDBConnector();
+            recipeNavigatorPresenter = new RecipeNavigatorPresenter(this.recipeNavigatorView, this.menu, this.dbConnection);
+            this.recipeNavigatorView.Setup(recipeNavigatorPresenter, this.recipe, this.menu);
             SubscribeToMenuEvents();
         }
 
@@ -40,13 +41,14 @@ namespace View
         {
             Console.WriteLine("Mainwindow: MenuUpdated()-function called");
             //this.recipeNavigatorView1.Menu.MenuList = e.menu.MenuList;
-            //this.recipeNavigatorView1.Menu.MenuList.AddRange(e.menu.MenuList);
-            foreach (string recipe in menu.MenuList)
-            {
-                this.recipeNavigatorView1.Menu.MenuList.Add(recipe);
-            }
+            //this.recipeNavigatorView1.Menu.MenuList.AddRange(menu.MenuList);
+            //foreach (string recipe in menu.MenuList)
+            //{
+            //    this.recipeNavigatorView1.Menu.MenuList.Add(recipe);
+            //}
             //Console.WriteLine(e.menu.MenuList.ToString());
-            
+            //this.recipeNavigatorView1.ListOfRecipes.AddRange(this.menu.MenuList);
+            this.recipeNavigatorView.setListofRecipeItems(this.menu.MenuList);
         }
 
         private void recipeNavigatorView1_Load(object sender, EventArgs e)

@@ -10,12 +10,14 @@ namespace Presenter
         private readonly IRecipeNavigatorView view;
         private IRecipe recipe;
         private IMenu menu;
+        private IDBConnection dbConnection;
 
-        public RecipeNavigatorPresenter(IRecipeNavigatorView _view, IMenu _menu)
+        public RecipeNavigatorPresenter(IRecipeNavigatorView _view, IMenu _menu, IDBConnection dbCon)
         {
             this.view = _view;
             this.menu = _menu;
             this.recipe = null;
+            this.dbConnection = dbCon;
         }
         public void PickRecipe()
         {

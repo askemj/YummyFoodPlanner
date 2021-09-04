@@ -28,31 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.recipeNavigatorView1 = new View.RecipeNavigatorView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            this.recipeNavigatorView = new View.RecipeNavigatorView();
             this.SuspendLayout();
             // 
-            // recipeNavigatorView1
+            // recipeNavigatorView
             // 
-            this.recipeNavigatorView1.Ingredients = null;
-            this.recipeNavigatorView1.ListOfRecipes = null;
-            this.recipeNavigatorView1.Location = new System.Drawing.Point(221, 163);
-            this.recipeNavigatorView1.Name = "recipeNavigatorView1";
-            this.recipeNavigatorView1.Notes = null;
-            this.recipeNavigatorView1.NumberOfServings = 0;
-            this.recipeNavigatorView1.PreparationTime = 0;
-            this.recipeNavigatorView1.RecipeType = null;
-            this.recipeNavigatorView1.Size = new System.Drawing.Size(479, 268);
-            this.recipeNavigatorView1.TabIndex = 0;
-            this.recipeNavigatorView1.Tags = null;
-            this.recipeNavigatorView1.TotalTime = 0;
-            this.recipeNavigatorView1.Load += new System.EventHandler(this.recipeNavigatorView1_Load);
+            this.recipeNavigatorView.Ingredients = null;
+            this.recipeNavigatorView.ListOfRecipes = ((System.Collections.Generic.List<string>)(resources.GetObject("recipeNavigatorView.ListOfRecipes")));
+            this.recipeNavigatorView.Location = new System.Drawing.Point(221, 163);
+            this.recipeNavigatorView.Name = "recipeNavigatorView";
+            this.recipeNavigatorView.Notes = null;
+            this.recipeNavigatorView.NumberOfServings = 0;
+            this.recipeNavigatorView.PreparationTime = 0;
+            this.recipeNavigatorView.RecipeType = null;
+            this.recipeNavigatorView.Size = new System.Drawing.Size(479, 268);
+            this.recipeNavigatorView.TabIndex = 0;
+            this.recipeNavigatorView.Tags = null;
+            this.recipeNavigatorView.TotalTime = 0;
+            this.recipeNavigatorView.Load += new System.EventHandler(this.recipeNavigatorView1_Load);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 573);
-            this.Controls.Add(this.recipeNavigatorView1);
+            this.Controls.Add(this.recipeNavigatorView);
             this.Name = "MainWindow";
             this.Text = "Yummy Food Planner";
             this.ResumeLayout(false);
@@ -61,7 +62,7 @@
 
         #endregion
 
-        private View.RecipeNavigatorView recipeNavigatorView1;
+        private View.RecipeNavigatorView recipeNavigatorView;
     }
 }
 

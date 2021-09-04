@@ -7,7 +7,7 @@ namespace View
 {
     public interface IRecipeNavigatorView
     {
-        List<SimpleRecipe> ListOfRecipes { get; set; }
+        List<string> ListOfRecipes { get; set; }
         string SearchField { get;}
 
         string Name { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Data;
 
 namespace Model
 {
@@ -19,9 +20,26 @@ namespace Model
             this.initiate(id, name, prepTime, totTime, nServings, recipeType, tags);
         }
 
-        public SimpleRecipe(int id)
+        public SimpleRecipe(string id, IDBConnection db)
         {
-            //kald til db funktion
+            DataTable dt = db.GetRecipeInfo(id);
+            //"ID", "Notes", "Number of Servings", "Preparation Time", "Total Time", "Recipe Type" })) {
+            int recipeid = Convert.ToInt32(dt.Rows[0]["ID"]);
+            string name = dt.Rows[0]["Name"].ToString();
+            string notes = dt.Rows[0]["Notes"].ToString();
+            int nServings = Convert.ToInt32(dt.Rows[0]["Number of Servings"]);
+            int prepTime = Convert.ToInt32(dt.Rows[0]["Preparation Time"]);
+            int totTime = Convert.ToInt32(dt.Rows[0]["Total Time"]);
+            string recipeType = dt.Rows[0]["Recipe Type"].ToString();
+
+            DataTable dt_tags = db.GetRecipeTags(id);
+            List<string> tagList = new List<string>();
+            for (int i = 0; i < dt_tags.Rows.Count; i++)
+            {
+                tagList.Add(dt_tags.Rows[i]["Tags"].ToString());
+            }
+
+            this.initiate(recipeid, name, prepTime, totTime, nServings, recipeType, tagList);
             return;
         }
 

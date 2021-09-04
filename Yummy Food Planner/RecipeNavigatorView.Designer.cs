@@ -28,20 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lvMenu = new System.Windows.Forms.ListView();
             this.tbRecipe = new System.Windows.Forms.TextBox();
             this.tbSearchField = new System.Windows.Forms.TextBox();
+            this.lbMenu = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
-            // 
-            // lvMenu
-            // 
-            this.lvMenu.HideSelection = false;
-            this.lvMenu.Location = new System.Drawing.Point(12, 22);
-            this.lvMenu.Name = "lvMenu";
-            this.lvMenu.Size = new System.Drawing.Size(151, 121);
-            this.lvMenu.TabIndex = 0;
-            this.lvMenu.UseCompatibleStateImageBehavior = false;
-            this.lvMenu.SelectedIndexChanged += new System.EventHandler(this.lvMenu_SelectedIndexChanged);
             // 
             // tbRecipe
             // 
@@ -59,13 +49,22 @@
             this.tbSearchField.TabIndex = 2;
             this.tbSearchField.TextChanged += new System.EventHandler(this.tbSearchField_TextChanged);
             // 
+            // lbMenu
+            // 
+            this.lbMenu.FormattingEnabled = true;
+            this.lbMenu.ItemHeight = 20;
+            this.lbMenu.Location = new System.Drawing.Point(13, 22);
+            this.lbMenu.Name = "lbMenu";
+            this.lbMenu.Size = new System.Drawing.Size(150, 124);
+            this.lbMenu.TabIndex = 3;
+            // 
             // RecipeNavigatorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbMenu);
             this.Controls.Add(this.tbSearchField);
             this.Controls.Add(this.tbRecipe);
-            this.Controls.Add(this.lvMenu);
             this.Name = "RecipeNavigatorView";
             this.Size = new System.Drawing.Size(383, 214);
             this.ResumeLayout(false);
@@ -74,9 +73,8 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ListView lvMenu;
         private System.Windows.Forms.TextBox tbRecipe;
         private System.Windows.Forms.TextBox tbSearchField;
+        private System.Windows.Forms.ListBox lbMenu;
     }
 }

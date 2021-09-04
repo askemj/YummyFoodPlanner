@@ -15,7 +15,7 @@ namespace View
         private RecipeNavigatorPresenter presenter;
         private IRecipe recipe;
         public IMenu Menu;
-        public List<SimpleRecipe> ListOfRecipes { get; set; }
+        public List<string> ListOfRecipes { get { return getListofRecipeItems(); } set { setListofRecipeItems(value); } }
         public string SearchField { get { return tbSearchField.Text; } }
         public string Name { get; set; }
         public string Notes { get; set; }
@@ -27,7 +27,33 @@ namespace View
         public List<Ingredient> Ingredients { get; set; }
         public RecipeNavigatorView()
         {
+            
             InitializeComponent();
+        }
+
+        private List<string> getListofRecipeItems()
+        {
+            List<string> recipeItemsList = new List<string>();
+            foreach(object item in this.lbMenu.Items)
+            {
+                recipeItemsList.Add(item.ToString());
+            }
+            return recipeItemsList;
+        }
+
+        public void setListofRecipeItems(List<string> recipeItems)
+        {
+            if (recipeItems != null)
+            {
+                if (recipeItems.Count > 0)
+                {
+                    recipeItems.Clear();
+                }
+                foreach (string item in recipeItems)
+                {
+                    this.lbMenu.Items.Add(item);
+                }
+            }
         }
 
         public void Setup(RecipeNavigatorPresenter _presenter, IRecipe _recipe, IMenu _menu)

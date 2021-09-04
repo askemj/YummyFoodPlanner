@@ -11,10 +11,10 @@ namespace Model
 {
     public class MariaDBConnector : IDBConnection
     {
-        private static MySqlConnectionStringBuilder ConnectionStringBuilder = new MySqlConnectionStringBuilder();
-        private static MySqlConnection SqlConnection;
+        private MySqlConnectionStringBuilder ConnectionStringBuilder = new MySqlConnectionStringBuilder();
+        private MySqlConnection SqlConnection;
 
-        public static void SetupConnection()
+        public MariaDBConnector()
         {
             Dictionary<string, string> databaseCredentials = LoadFromCredFile();
             Console.WriteLine(databaseCredentials.ToString());
@@ -27,7 +27,7 @@ namespace Model
             Console.WriteLine("MariaDB Connection finished setting up");
         }
 
-        public static Dictionary<string, string> LoadFromCredFile()
+        public Dictionary<string, string> LoadFromCredFile()
         {
             Dictionary<string, string> loginCredentials = new Dictionary<string, string>();
 
@@ -71,44 +71,14 @@ namespace Model
             return loginCredentials;
         }
 
-        public static Dictionary<string, string> GetRecipeInfo(string recipeID)
+        public DataTable SQLQuery(string queryString, DataTable dataTable)
         {
-            Dictionary<string, string> recipeInfo = new Dictionary<string, string>();
-            string sqlQueryStr = $"SELECT Ret.ret_id, Ret.noter, Ret.antal_portioner, Tilberedningstid.tilberedningstid_tid, " +
-                "Arbejdstid.arbejdstid_tid, Opskriftstype.opskriftstype_tekst " +
-                "FROM Ret, Tilberedningstid, Arbejdstid, Opskriftstype " +
-                "WHERE Ret.Tilberedningstid_tilberedningstid_id = Tilberedningstid.tilberedningstid_id " +
-                "AND Ret.Arbejdstid_arbejdstid_id = Arbejdstid.arbejdstid_id " +
-                "AND Ret.Opskriftstype_opskriftstype_id = Opskriftstype.opskriftstype_id " +
-                "AND Ret.ret_ID = \"{recipeID}\";";
             try
-            { 
-                Console.WriteLine("Yummyfoodplanner: opening MariaDB connection and executing query: \"" + sqlQueryStr);
+            {
                 SqlConnection.Open();
-                MySqlCommand sqlCommand = new MySqlCommand(sqlQueryStr, SqlConnection);
-                MySqlDataReader reader = sqlCommand.ExecuteReader();
-
-                //while (reader.Read())
-                //{
-                //    recipeDetails.Add(reader[0].ToString());
-                //    recipeDetails.Add(reader[1].ToString());
-                //    recipeDetails.Add(reader[2].ToString());
-                //    recipeDetails.Add(reader[3].ToString());
-                //    recipeDetails.Add(reader[4].ToString());
-                //    recipeDetails.Add(reader[5].ToString());
-                //}
-                //Console.WriteLine("GroceryApp: Query OK");
-
-                while (reader.Read())
-                {
-                    recipeInfo.Add("ID", reader[0].ToString() );
-                    recipeInfo.Add("Notes", reader[1].ToString() );
-                    recipeInfo.Add("Number of Servings", reader[2].ToString() );
-                    recipeInfo.Add("Preparation Time", reader[3].ToString() );
-                    recipeInfo.Add("Total Time", reader[4].ToString() );
-                    recipeInfo.Add("Recipe Type", reader[5].ToString() );
-                }
-                Console.WriteLine("GroceryApp: Query OK");
+                MySqlCommand sqlCommand = new MySqlCommand(queryString, SqlConnection);
+                MySqlDataAdapter mySqlDataAdapter= new MySqlDataAdapter(sqlCommand);
+                mySqlDataAdapter.Fill(dataTable);
             }
             catch (Exception Ex)
             {
@@ -121,24 +91,38 @@ namespace Model
                     SqlConnection.Close();
                 }
             }
-            return recipeInfo;
+            return dataTable;
         }
 
-        public static List<string> GetTags(string recipeName)
+        public DataTable GetRecipeInfo(string recipeID)
         {
-            List<string> sqlResult = new List<string>();
-            string sqlString = "SELECT Tag.tag_tekst " +
-            "FROM Ret, RetTag, Tag " +
-            "WHERE Ret.ret_id = RetTag.Ret_ret_id " +
-            "AND Tag.tag_id = RetTag.Tag_tag_id " +
-            "AND Ret.ret_navn = \"" + recipeName + "\"";
-            // sqlResult = SqlListQuery(sqlString);
-            return sqlResult;
+            DataTable dt = new DataTable("Recipe Info");
+            foreach (string col in new List<string>(new string[] { "ID", "Name", "Notes", "Number of Servings", "Preparation Time", "Total Time", "Recipe Type" })) {
+                dt.Columns.Add(col);
+            }           
+
+            string query = $"SELECT Ret.ret_id, Ret.ret_navn, Ret.noter, Ret.antal_portioner, Tilberedningstid.tilberedningstid_tid, " +
+                            "Arbejdstid.arbejdstid_tid, Opskriftstype.opskriftstype_tekst " +
+                            "FROM Ret, Tilberedningstid, Arbejdstid, Opskriftstype " +
+                            "WHERE Ret.Tilberedningstid_tilberedningstid_id = Tilberedningstid.tilberedningstid_id " +
+                            "AND Ret.Arbejdstid_arbejdstid_id = Arbejdstid.arbejdstid_id " +
+                            "AND Ret.Opskriftstype_opskriftstype_id = Opskriftstype.opskriftstype_id " +
+                            "AND Ret.ret_ID = \"{recipeID}\";";
+            return SQLQuery(query, dt);
         }
 
-        public static DataTable GetRecipeIngredients() { 
-            DataTable dt = new DataTable("Recipe Details"); 
-            return dt;
+        public DataTable GetRecipeTags(string recipeID)
+        {
+            DataTable dt = new DataTable("Tags");
+            dt.Columns.Add("Tag");
+
+            string query = $"SELECT Tag.tag_tekst " +
+                            "FROM Ret, RetTag, Tag " +
+                            "WHERE Ret.ret_id = RetTag.Ret_ret_id " +
+                            "AND Tag.tag_id = RetTag.Tag_tag_id " +
+                            "AND Ret.ret_id = \"{recipeID}\"";
+
+            return SQLQuery(query, dt);
         }
     }
 }
