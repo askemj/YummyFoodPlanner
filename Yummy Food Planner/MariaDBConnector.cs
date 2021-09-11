@@ -6,6 +6,7 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Model
 {
@@ -13,6 +14,7 @@ namespace Model
     {
         private MySqlConnectionStringBuilder ConnectionStringBuilder = new MySqlConnectionStringBuilder();
         private MySqlConnection SqlConnection;
+        public string ConnectionStatus;
 
         public MariaDBConnector()
         {
@@ -23,8 +25,37 @@ namespace Model
             ConnectionStringBuilder.Database = "opskrifter";
             ConnectionStringBuilder.UserID = databaseCredentials["Username"];
             ConnectionStringBuilder.Password = databaseCredentials["Password"];
+            ConnectionStringBuilder.SslMode = MySqlSslMode.None;
             SqlConnection = new MySqlConnection(ConnectionStringBuilder.ConnectionString);
+            ConnectionStatus = "unavailable";
+            TestConnection();
             Console.WriteLine("MariaDB Connection finished setting up");
+        }
+
+        public string TestConnection(){
+            string serverInfo = "N/A";
+
+            try
+            {
+                Console.WriteLine("Testing MySQL connection ...");
+                SqlConnection.Open();
+                ConnectionStatus = "available"; 
+                serverInfo = SqlConnection.ServerVersion + " " + SqlConnection.State.ToString();
+                Console.WriteLine("MySQL connection is live: " + serverInfo); 
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine(Ex.ToString());
+                ConnectionStatus = "unavailable";
+            }
+            finally
+            {
+                if (SqlConnection.State.ToString() == "Open")
+                {
+                    SqlConnection.Close();
+                }
+            }
+                return serverInfo;
         }
 
         public Dictionary<string, string> LoadFromCredFile()
@@ -108,7 +139,7 @@ namespace Model
                             "AND Ret.Arbejdstid_arbejdstid_id = Arbejdstid.arbejdstid_id " +
                             "AND Ret.Opskriftstype_opskriftstype_id = Opskriftstype.opskriftstype_id " +
                             "AND Ret.ret_ID = \"{recipeID}\";";
-            return SQLQuery(query, dt);
+            return dt; //SQLQuery(query, dt);
         }
 
         public DataTable GetRecipeTags(string recipeID)
@@ -122,7 +153,41 @@ namespace Model
                             "AND Tag.tag_id = RetTag.Tag_tag_id " +
                             "AND Ret.ret_id = \"{recipeID}\"";
 
-            return SQLQuery(query, dt);
+            return dt; // SQLQuery(query, dt);
+        }
+
+        public DataTable GetIngredients(string recipeID)
+        {
+            return new DataTable();
+        }
+
+        public List<string> GetMenu(string searchKey)
+        {
+            List<string> menuList = new List<string>();
+            DataTable dT = new DataTable();
+            dT.Columns.Add("Recipe");
+
+            string sqlString = $"SELECT Ret.ret_navn FROM Ret, Tag, RetTag " + // NB makes many calls to format.string and many strings in memory :(
+            $"WHERE Ret.ret_id = RetTag.Ret_ret_id " +
+            $"AND Tag.tag_id = RetTag.Tag_tag_id " + 
+            $"AND Tag.tag_tekst LIKE \"%{searchKey}%\" " + 
+            $"UNION  " +
+            $"SELECT Ret.ret_navn FROM Ret " +
+            $"WHERE ret_navn LIKE \"%{searchKey}% \" " +
+            $"UNION  " +
+            $"SELECT Ret.ret_navn  " +
+            $"FROM Ret, Vare, RetVare  " +
+            $"WHERE Ret.ret_id = RetVare.Ret_ret_id  " +
+            $"AND Vare.vare_id = RetVare.Vare_vare_id  " +
+            $"AND Vare.vare_navn LIKE \"%{searchKey}%\";";
+
+            dT = SQLQuery(sqlString, dT);
+            for (int i = 0; i < dT.Rows.Count; i++)
+            {
+                //menuList.Add(dT.Tables.ToString());
+                menuList.Add(dT.Rows[i]["Recipe"].ToString());
+            }
+            return menuList;    
         }
     }
 }

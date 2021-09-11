@@ -23,7 +23,7 @@ namespace View
         {
             this.shoppingList = new ShoppingList();
             this.menu = new Menu();
-            this.recipe = null;
+            this.recipe = null; 
             InitializeComponent();
             dbConnection = new MariaDBConnector();
             recipeNavigatorPresenter = new RecipeNavigatorPresenter(this.recipeNavigatorView, this.menu, this.dbConnection);

@@ -19,30 +19,20 @@ namespace Model
             // update menu 
         }
 
-        public void Search(string key)
+        public void Search(string key, IDBConnection db)
         {
             // search for keyword 
             Console.WriteLine("Menu: Search()-function called");
-            MenuList.Clear(); 
-            MenuList.Add("Boller I Karry");
+            
+            MenuList.Clear();
+            MenuList.AddRange(db.GetMenu(key)); 
             OnMenuUpdate();
-            //OnMenuUpdate(new MenuEventArgs(this));
+            //OnMenuUpdate(new MenuEventArgs(this)); 
         }
 
         protected virtual void OnMenuUpdate()//MenuEventArgs e)
         {
-            //EventHandler eventHandler = this.MenuUpdated;
             Console.WriteLine("Menu: RaiseMenuUpdatedEvent()-function called");
-            //MenuUpdated(this, new MenuEventArgs(this));
-            if (MenuUpdated == null )
-            {
-                MessageBox.Show("Eventhandler \"MenuUpdated\" is null!");
-            }
-            if (MenuUpdated != null)
-            {
-                MessageBox.Show("Eventhandler \"MenuUpdated\" is NOT null!");
-            }
-            //eventHandler?.Invoke(this, e);
             MenuUpdated?.Invoke(this, EventArgs.Empty); // , new MenuEventArgs(this)); 
         }
     } 

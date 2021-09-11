@@ -9,7 +9,7 @@ namespace Model
         public List<string> MenuList { get; set; }
 
         public void Update();
-        public void Search(string key);
+        public void Search(string key, IDBConnection dbConnection);
 
     }
 }

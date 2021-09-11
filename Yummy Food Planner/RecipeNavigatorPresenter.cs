@@ -30,7 +30,10 @@ namespace Presenter
             Console.WriteLine("RecipeNavigatorPresenter: SearchForRecipe()-function called");
             string key = this.view.SearchField;
             Console.WriteLine("... with key " + key);
-            menu.Search(key);
+            
+            
+            
+            menu.Search(key, dbConnection);
         }
     }
 }
