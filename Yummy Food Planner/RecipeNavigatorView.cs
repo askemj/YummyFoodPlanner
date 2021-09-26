@@ -45,9 +45,9 @@ namespace View
         {
             if (recipeItems != null)
             {
-                if (recipeItems.Count > 0)
+                if (this.lbMenu.Items.Count > 0)
                 {
-                    recipeItems.Clear();
+                    this.lbMenu.Items.Clear();
                 }
                 foreach (string item in recipeItems)
                 {

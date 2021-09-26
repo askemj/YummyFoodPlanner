@@ -37,7 +37,7 @@ namespace View
             this.menu.MenuUpdated += MenuUpdated;
         }
 
-        private void MenuUpdated(object sender, EventArgs e)//, MenuEventArgs e)
+        private void MenuUpdated(object sender, MenuEventArgs e)//, MenuEventArgs e)
         {
             Console.WriteLine("Mainwindow: MenuUpdated()-function called");
             //this.recipeNavigatorView1.Menu.MenuList = e.menu.MenuList;
@@ -48,7 +48,7 @@ namespace View
             //}
             //Console.WriteLine(e.menu.MenuList.ToString());
             //this.recipeNavigatorView1.ListOfRecipes.AddRange(this.menu.MenuList);
-            this.recipeNavigatorView.setListofRecipeItems(this.menu.MenuList);
+            this.recipeNavigatorView.setListofRecipeItems(e.MenuList); //this.menu.MenuList);
         }
 
         private void recipeNavigatorView1_Load(object sender, EventArgs e)
