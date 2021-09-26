@@ -165,7 +165,7 @@ namespace Model
         {
             List<string> menuList = new List<string>();
             DataTable dT = new DataTable();
-            dT.Columns.Add("Recipe");
+            //dT.Columns.Add("Recipe");
 
             string sqlString = $"SELECT Ret.ret_navn FROM Ret, Tag, RetTag " + // NB makes many calls to format.string and many strings in memory :(
             $"WHERE Ret.ret_id = RetTag.Ret_ret_id " +
@@ -185,7 +185,8 @@ namespace Model
             for (int i = 0; i < dT.Rows.Count; i++)
             {
                 //menuList.Add(dT.Tables.ToString());
-                menuList.Add(dT.Rows[i]["Recipe"].ToString());
+                menuList.Add(dT.Rows[i][0].ToString());
+                //menuList.Add(dT.Rows[i]["Recipe"].ToString());
             }
             return menuList;    
         }
