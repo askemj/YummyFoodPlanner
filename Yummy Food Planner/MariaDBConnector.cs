@@ -102,8 +102,9 @@ namespace Model
             return loginCredentials;
         }
 
-        public DataTable SQLQuery(string queryString, DataTable dataTable)
+        public DataTable SQLQuery(string queryString)
         {
+            DataTable dataTable = new DataTable();
             try
             {
                 SqlConnection.Open();
@@ -122,38 +123,32 @@ namespace Model
                     SqlConnection.Close();
                 }
             }
+            
             return dataTable;
         }
 
         public DataTable GetRecipeInfo(string recipeID)
         {
-            DataTable dt = new DataTable("Recipe Info");
-            foreach (string col in new List<string>(new string[] { "ID", "Name", "Notes", "Number of Servings", "Preparation Time", "Total Time", "Recipe Type" })) {
-                dt.Columns.Add(col);
-            }           
-
             string query = $"SELECT Ret.ret_id, Ret.ret_navn, Ret.noter, Ret.antal_portioner, Tilberedningstid.tilberedningstid_tid, " +
-                            "Arbejdstid.arbejdstid_tid, Opskriftstype.opskriftstype_tekst " +
-                            "FROM Ret, Tilberedningstid, Arbejdstid, Opskriftstype " +
-                            "WHERE Ret.Tilberedningstid_tilberedningstid_id = Tilberedningstid.tilberedningstid_id " +
-                            "AND Ret.Arbejdstid_arbejdstid_id = Arbejdstid.arbejdstid_id " +
-                            "AND Ret.Opskriftstype_opskriftstype_id = Opskriftstype.opskriftstype_id " +
-                            "AND Ret.ret_ID = \"{recipeID}\";";
-            return dt; //SQLQuery(query, dt);
+                            $"Arbejdstid.arbejdstid_tid, Opskriftstype.opskriftstype_tekst " +
+                            $"FROM Ret, Tilberedningstid, Arbejdstid, Opskriftstype " +
+                            $"WHERE Ret.Tilberedningstid_tilberedningstid_id = Tilberedningstid.tilberedningstid_id " +
+                            $"AND Ret.Arbejdstid_arbejdstid_id = Arbejdstid.arbejdstid_id " +
+                            $"AND Ret.Opskriftstype_opskriftstype_id = Opskriftstype.opskriftstype_id " +
+                            $"AND Ret.ret_ID = \"{recipeID}\";";
+            DataTable dT = SQLQuery(query);
+            return dT;
         }
 
         public DataTable GetRecipeTags(string recipeID)
         {
-            DataTable dt = new DataTable("Tags");
-            dt.Columns.Add("Tag");
-
             string query = $"SELECT Tag.tag_tekst " +
                             "FROM Ret, RetTag, Tag " +
                             "WHERE Ret.ret_id = RetTag.Ret_ret_id " +
                             "AND Tag.tag_id = RetTag.Tag_tag_id " +
                             "AND Ret.ret_id = \"{recipeID}\"";
-
-            return dt; // SQLQuery(query, dt);
+            DataTable dT = SQLQuery(query);
+            return dT; 
         }
 
         public DataTable GetIngredients(string recipeID)
@@ -161,32 +156,49 @@ namespace Model
             return new DataTable();
         }
 
-        public List<string> GetMenu(string searchKey)
+        public List<SimpleRecipe> GetMenu(string searchKey)
         {
-            List<string> menuList = new List<string>();
-            DataTable dT = new DataTable();
-            //dT.Columns.Add("Recipe");
-
-            string sqlString = $"SELECT Ret.ret_navn FROM Ret, Tag, RetTag " + // NB makes many calls to format.string and many strings in memory :(
+            string sqlString = $"SELECT Ret.ret_id FROM Ret, Tag, RetTag " + // NB makes many calls to format.string and many strings in memory :(
             $"WHERE Ret.ret_id = RetTag.Ret_ret_id " +
             $"AND Tag.tag_id = RetTag.Tag_tag_id " + 
             $"AND Tag.tag_tekst LIKE \"%{searchKey}%\" " + 
             $"UNION  " +
-            $"SELECT Ret.ret_navn FROM Ret " +
+            $"SELECT Ret.ret_id FROM Ret " +
             $"WHERE ret_navn LIKE \"%{searchKey}% \" " +
             $"UNION  " +
-            $"SELECT Ret.ret_navn  " +
+            $"SELECT Ret.ret_id  " +
             $"FROM Ret, Vare, RetVare  " +
             $"WHERE Ret.ret_id = RetVare.Ret_ret_id  " +
             $"AND Vare.vare_id = RetVare.Vare_vare_id  " +
             $"AND Vare.vare_navn LIKE \"%{searchKey}%\";";
 
-            dT = SQLQuery(sqlString, dT);
+            //string sqlString = $"SELECT Ret.ret_navn FROM Ret, Tag, RetTag " + // NB makes many calls to format.string and many strings in memory :(
+            //$"WHERE Ret.ret_id = RetTag.Ret_ret_id " +
+            //$"AND Tag.tag_id = RetTag.Tag_tag_id " +
+            //$"AND Tag.tag_tekst LIKE \"%{searchKey}%\" " +
+            //$"UNION  " +
+            //$"SELECT Ret.ret_navn FROM Ret " +
+            //$"WHERE ret_navn LIKE \"%{searchKey}% \" " +
+            //$"UNION  " +
+            //$"SELECT Ret.ret_navn  " +
+            //$"FROM Ret, Vare, RetVare  " +
+            //$"WHERE Ret.ret_id = RetVare.Ret_ret_id  " +
+            //$"AND Vare.vare_id = RetVare.Vare_vare_id  " +
+            //$"AND Vare.vare_navn LIKE \"%{searchKey}%\";";
+
+            DataTable dT = SQLQuery(sqlString);
+
+            List<string> menuIDs = new List<string>();
             for (int i = 0; i < dT.Rows.Count; i++)
             {
-                //menuList.Add(dT.Tables.ToString());
-                menuList.Add(dT.Rows[i][0].ToString());
-                //menuList.Add(dT.Rows[i]["Recipe"].ToString());
+                menuIDs.Add(dT.Rows[i]["ret_id"].ToString());
+            }
+
+            List<SimpleRecipe> menuList = new List<SimpleRecipe>();
+            foreach (string recipeID in menuIDs)
+            {
+                SimpleRecipe recipe = new SimpleRecipe(recipeID, this);
+                menuList.Add(recipe);
             }
             return menuList;    
         }

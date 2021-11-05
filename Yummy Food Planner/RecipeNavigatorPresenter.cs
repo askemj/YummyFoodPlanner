@@ -30,10 +30,24 @@ namespace Presenter
             Console.WriteLine("RecipeNavigatorPresenter: SearchForRecipe()-function called");
             string key = this.view.SearchField;
             Console.WriteLine("... with key " + key);
-            
-            
-            
             menu.Search(key, dbConnection);
+        }
+
+        public void DisplayRecipe(string recipeName)
+        {
+            // display recipe 
+            //find recipe i menu 
+            // når vi skifter til ægte recipes i menu så brug RecipeSelector()
+            //generer displaytekst
+            //set displaytekst
+        }
+
+        private Recipe RecipeSelector(string recipeName)
+        {
+            Recipe recipe = new Recipe("1");
+            //menu.MenuList.Find(recipeName); 
+            //menu.MenuList.Find(i => i.RecipeName == recipeName);
+            return recipe;
         }
     }
 }

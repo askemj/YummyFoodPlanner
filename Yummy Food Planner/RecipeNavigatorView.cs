@@ -15,7 +15,7 @@ namespace View
         private RecipeNavigatorPresenter presenter;
         private IRecipe recipe;
         public IMenu Menu;
-        public List<string> ListOfRecipes { get { return getListofRecipeItems(); } set { setListofRecipeItems(value); } }
+        public List<string> ListOfRecipes { get; set; } // get { return getListofRecipeItems()}; set; }
         public string SearchField { get { return tbSearchField.Text; } }
         public string Name { get; set; }
         public string Notes { get; set; }
@@ -36,22 +36,22 @@ namespace View
             List<string> recipeItemsList = new List<string>();
             foreach(object item in this.lbMenu.Items)
             {
-                recipeItemsList.Add(item.ToString());
+                recipeItemsList.Add(item.ToString()); //new SimpleRecipe(0, item.ToString(), "", 0, 1, 2, "", new List<string>() { }) );
             }
             return recipeItemsList;
         }
 
-        public void setListofRecipeItems(List<string> recipeItems)
+        public void setListofRecipeItems(List<SimpleRecipe> recipes)
         {
-            if (recipeItems != null)
+            if (recipes != null)
             {
                 if (this.lbMenu.Items.Count > 0)
                 {
                     this.lbMenu.Items.Clear();
                 }
-                foreach (string item in recipeItems)
+                foreach (SimpleRecipe recipe in recipes)
                 {
-                    this.lbMenu.Items.Add(item);
+                    this.lbMenu.Items.Add(recipe.Name);
                 }
             }
         }
@@ -72,7 +72,10 @@ namespace View
 
         private void lvMenu_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (lbMenu.SelectedItem != null)
+            {
+                //presenter.DisplayRecipe(lbMenu.SelectedItem);
+            }
         }
     }
 }

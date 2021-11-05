@@ -8,10 +8,10 @@ namespace Model
     public class Menu : IMenu
     {
         public event EventHandler<MenuEventArgs> MenuUpdated;
-        public List<string> MenuList { get; set; }
+        public List<SimpleRecipe> MenuList { get; set; }
         public Menu()
         {
-            MenuList = new List<string>();
+            MenuList = new List<SimpleRecipe>();
         }
 
         public void Update()
@@ -24,7 +24,7 @@ namespace Model
             // search for keyword 
             Console.WriteLine("Menu: Search()-function called");
             
-            //MenuList.Clear();
+            MenuList.Clear();
             MenuList.AddRange(db.GetMenu(key)); 
             OnMenuUpdate();
             //OnMenuUpdate(new MenuEventArgs(this)); 
@@ -33,7 +33,7 @@ namespace Model
         protected virtual void OnMenuUpdate()//MenuEventArgs e)
         {
             Console.WriteLine("Menu: RaiseMenuUpdatedEvent()-function called");
-            List<string> list = new List<string>();
+            List<SimpleRecipe> list = new List<SimpleRecipe>();
             list.AddRange(this.MenuList);
             MenuEventArgs menuEventArgs = new MenuEventArgs(this, list);
             MenuUpdated?.Invoke(this, menuEventArgs);//EventArgs.Empty); // , new MenuEventArgs(this)); 
@@ -43,8 +43,8 @@ namespace Model
     public class MenuEventArgs : EventArgs
     {
         public Menu menu { get; set;}  
-        public List<string> MenuList { get; set;}
-        public MenuEventArgs(Menu _menu, List<string> _menuList)
+        public List<SimpleRecipe> MenuList { get; set;}
+        public MenuEventArgs(Menu _menu, List<SimpleRecipe> _menuList)
         {
             this.menu = _menu;
             this.MenuList = _menuList;

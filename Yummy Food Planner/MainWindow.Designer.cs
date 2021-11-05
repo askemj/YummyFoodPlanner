@@ -36,7 +36,7 @@
             // 
             this.recipeNavigatorView.Ingredients = null;
             this.recipeNavigatorView.ListOfRecipes = ((System.Collections.Generic.List<string>)(resources.GetObject("recipeNavigatorView.ListOfRecipes")));
-            this.recipeNavigatorView.Location = new System.Drawing.Point(221, 163);
+            this.recipeNavigatorView.Location = new System.Drawing.Point(221, 163); 
             this.recipeNavigatorView.Name = "recipeNavigatorView";
             this.recipeNavigatorView.Notes = null;
             this.recipeNavigatorView.NumberOfServings = 0;

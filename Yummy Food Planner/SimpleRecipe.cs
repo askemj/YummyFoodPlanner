@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using Org.BouncyCastle.Ocsp;
 
 namespace Model
 {
@@ -9,37 +10,38 @@ namespace Model
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public string Notes { get; set; }
         public int PreparationTime { get; set; }
         public int TotalTime { get; set; }
         public int NumberOfServings { get; set; }
         public string RecipeType { get; set; }
         public List<string> Tags { get; set; }
 
-        public SimpleRecipe(int id, string name, int prepTime, int totTime, int nServings, string recipeType, List<string> tags)
+        public SimpleRecipe(int id, string name, string notes, int prepTime, int totTime, int nServings, string recipeType, List<string> tags)
         {
-            this.initiate(id, name, prepTime, totTime, nServings, recipeType, tags);
+            this.initiate(id, name, notes, prepTime, totTime, nServings, recipeType, tags);
         }
 
         public SimpleRecipe(string id, IDBConnection db)
         {
             DataTable dt = db.GetRecipeInfo(id);
-            //"ID", "Notes", "Number of Servings", "Preparation Time", "Total Time", "Recipe Type" })) {
-            int recipeid = Convert.ToInt32(dt.Rows[0]["ID"]);
-            string name = dt.Rows[0]["Name"].ToString();
-            string notes = dt.Rows[0]["Notes"].ToString();
-            int nServings = Convert.ToInt32(dt.Rows[0]["Number of Servings"]);
-            int prepTime = Convert.ToInt32(dt.Rows[0]["Preparation Time"]);
-            int totTime = Convert.ToInt32(dt.Rows[0]["Total Time"]);
-            string recipeType = dt.Rows[0]["Recipe Type"].ToString();
+
+            int recipeid = Convert.ToInt32(dt.Rows[0]["ret_id"]);
+            string name = dt.Rows[0]["ret_navn"].ToString();
+            string notes = dt.Rows[0]["noter"].ToString();
+            int nServings = Convert.ToInt32(dt.Rows[0]["antal_portioner"]);
+            int prepTime = Convert.ToInt32(dt.Rows[0]["tilberedningstid_tid"]);
+            int totTime = Convert.ToInt32(dt.Rows[0]["arbejdstid_tid"]);
+            string recipeType = dt.Rows[0]["opskriftstype_tekst"].ToString();
 
             DataTable dt_tags = db.GetRecipeTags(id);
             List<string> tagList = new List<string>();
             for (int i = 0; i < dt_tags.Rows.Count; i++)
             {
-                tagList.Add(dt_tags.Rows[i]["Tags"].ToString());
+                tagList.Add(dt_tags.Rows[i]["tag_tekst"].ToString());
             }
 
-            this.initiate(recipeid, name, prepTime, totTime, nServings, recipeType, tagList);
+            this.initiate(recipeid, name, notes, prepTime, totTime, nServings, recipeType, tagList);
             return;
         }
 
@@ -47,10 +49,11 @@ namespace Model
         {
         }
 
-        public void initiate(int id, string name, int prepTime, int totTime, int nServings, string recipeType, List<string> tags)
+        public void initiate(int id, string name, string notes, int prepTime, int totTime, int nServings, string recipeType, List<string> tags)
         {
             this.ID = id;
             this.Name = name;
+            this.Notes = Notes;
             this.PreparationTime = prepTime;
             this.TotalTime = totTime;
             this.NumberOfServings = nServings;

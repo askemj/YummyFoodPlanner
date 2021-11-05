@@ -6,7 +6,7 @@ namespace Model
 {
     public interface IMenu
     {
-        public List<string> MenuList { get; set; }
+        public List<SimpleRecipe> MenuList { get; set; }
 
         public void Update();
         public void Search(string key, IDBConnection dbConnection);

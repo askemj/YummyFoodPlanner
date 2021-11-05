@@ -11,6 +11,6 @@ namespace Model
         public DataTable GetRecipeTags(string recipeID);
         public DataTable GetIngredients(string recipeID);
 
-        public List<string> GetMenu(string searchKey);
+        public List<SimpleRecipe> GetMenu(string searchKey);
     }
 }

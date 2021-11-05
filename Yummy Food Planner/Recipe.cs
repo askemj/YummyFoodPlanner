@@ -7,28 +7,32 @@ namespace Model
     public class Recipe : SimpleRecipe, IRecipe
     {
         public event EventHandler<EventArgs> RecipeUpdated;   
-        public bool ExistsInDatabase { get; set; }
-        public string Notes { get; set; } 
+        //public bool ExistsInDatabase { get; set; }      
         public List<Ingredient> Ingredients { get; set; }
 
-        public Recipe(int id) 
+        public Recipe(string id, IDBConnection db) : base(id, db)
+        {   
+            // skab database fkt til ingredienser 
+            //this.initiate(existsInDB, notes, ingredients, id, name, prepTime, totTime, nServings, recipeType, tags);
+        }
+
+        public Recipe(string recipeName)
         {
             //implementer database fkt.
             //derpå 
             //this.initiate(existsInDB, notes, ingredients, id, name, prepTime, totTime, nServings, recipeType, tags);
         }
 
-        public Recipe(bool existsInDB, string notes, List<Ingredient> ingredients, int id, string name, int prepTime, int totTime, int nServings, string recipeType, List<string> tags) : base(id, name, prepTime, totTime, nServings, recipeType, tags) // til oprettelse af ny db indgang
+        public Recipe(string notes, List<Ingredient> ingredients, int id, string name, int prepTime, int totTime, int nServings, string recipeType, List<string> tags) : base(id, notes, name, prepTime, totTime, nServings, recipeType, tags) // til oprettelse af ny db indgang
         {
-            this.initiate(existsInDB, notes, ingredients, id, name, prepTime, totTime, nServings, recipeType, tags);
+            this.initiate(notes, ingredients, id, name, prepTime, totTime, nServings, recipeType, tags);
         }
 
-        public void initiate(bool existsInDB, string notes, List<Ingredient> ingredients, int id, string name, int prepTime, int totTime, int nServings, string recipeType, List<string> tags)
+        private void initiate(string notes, List<Ingredient> ingredients, int id, string name, int prepTime, int totTime, int nServings, string recipeType, List<string> tags)
         {
-            this.ExistsInDatabase = existsInDB;
-            this.Notes = notes;
+            //this.ExistsInDatabase = existsInDB;
             this.Ingredients = ingredients;
-            base.initiate(id, name, prepTime, totTime, nServings, recipeType, tags);
+            base.initiate(id, name, notes, prepTime, totTime, nServings, recipeType, tags);
         }
     }
 }
