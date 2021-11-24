@@ -7,7 +7,7 @@ namespace Model
 {
     public interface IRecipe
     {
-        public event EventHandler<EventArgs> RecipeUpdated;  
+        public event EventHandler<RecipeEventArgs> RecipeUpdated;  
         int ID { get; set; }
         // bool ExistsInDatabase { get; set; } ... vil ikke blive vist 
         string Name { get; set; }

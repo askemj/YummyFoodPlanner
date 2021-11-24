@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using Org.BouncyCastle.Ocsp;
 
 namespace Model
 {
@@ -22,7 +21,7 @@ namespace Model
             this.initiate(id, name, notes, prepTime, totTime, nServings, recipeType, tags);
         }
 
-        public SimpleRecipe(string id, IDBConnection db)
+        public SimpleRecipe(int id, IDBConnection db)
         {
             DataTable dt = db.GetRecipeInfo(id);
 

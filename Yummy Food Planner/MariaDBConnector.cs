@@ -127,7 +127,7 @@ namespace Model
             return dataTable;
         }
 
-        public DataTable GetRecipeInfo(string recipeID)
+        public DataTable GetRecipeInfo(int recipeID)
         {
             string query = $"SELECT Ret.ret_id, Ret.ret_navn, Ret.noter, Ret.antal_portioner, Tilberedningstid.tilberedningstid_tid, " +
                             $"Arbejdstid.arbejdstid_tid, Opskriftstype.opskriftstype_tekst " +
@@ -135,24 +135,43 @@ namespace Model
                             $"WHERE Ret.Tilberedningstid_tilberedningstid_id = Tilberedningstid.tilberedningstid_id " +
                             $"AND Ret.Arbejdstid_arbejdstid_id = Arbejdstid.arbejdstid_id " +
                             $"AND Ret.Opskriftstype_opskriftstype_id = Opskriftstype.opskriftstype_id " +
-                            $"AND Ret.ret_ID = \"{recipeID}\";";
+                            $"AND Ret.ret_ID = \"{recipeID.ToString()}\";";
             DataTable dT = SQLQuery(query);
             return dT;
         }
 
-        public DataTable GetRecipeTags(string recipeID)
+        public DataTable GetRecipeTags(int recipeID)
         {
-            string query = $"SELECT Tag.tag_tekst " +
+            string query = "SELECT Tag.tag_tekst " +
                             "FROM Ret, RetTag, Tag " +
                             "WHERE Ret.ret_id = RetTag.Ret_ret_id " +
                             "AND Tag.tag_id = RetTag.Tag_tag_id " +
-                            "AND Ret.ret_id = \"{recipeID}\"";
+                            $"AND Ret.ret_id = \"{recipeID.ToString()}\"";
             DataTable dT = SQLQuery(query);
             return dT; 
         }
 
-        public DataTable GetIngredients(string recipeID)
+        public DataTable GetIngredients(int recipeID)
         {
+            string query = "SELECT Vare.vare_id, RetVare.maengde, Enhed.enhed_navn, Vare.vare_navn, Varetype.varetype_tekst, Vare.basisvare " + //, Vare.basisvare " + 
+                                    "FROM Ret, RetVare, Enhed, Vare, Varetype " +
+                                    "WHERE Ret.ret_id = RetVare.Ret_ret_id " +
+                                    "AND Vare.vare_id = RetVare.Vare_vare_id " +
+                                    "AND Enhed.enhed_id = RetVare.Enhed_enhed_id " +
+                                    "AND Vare.Varetype_varetype_id = Varetype.varetype_id " +
+                                    $"AND Ret.ret_id = \"{recipeID.ToString()}\";";
+            DataTable dT = SQLQuery(query);
+
+            dT.Columns["vare_id"].ColumnName = "ID";
+            dT.Columns["maengde"].ColumnName = "Quantity";
+            dT.Columns["enhed_navn"].ColumnName = "Unit";
+            dT.Columns["vare_navn"].ColumnName = "Name";
+            dT.Columns["vare_type"].ColumnName = "SuperMarketSection";
+            dT.Columns["basisvare"].ColumnName = "IsBasicItem";
+            DataColumn dC = new DataColumn("Role", typeof(string) );
+            dC.DefaultValue = "hovedingrediens";
+            dT.Columns.Add(dC);
+
             return new DataTable();
         }
 

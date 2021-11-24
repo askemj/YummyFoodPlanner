@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 namespace Model
 {
@@ -20,6 +21,30 @@ namespace Model
             this.Role = role;
             this.SuperMarketSection = superMarketSection;
             this.IsBasicItem = isBasicItem;
+        }
+
+        public Ingredient(int ID, float quantity, string unit, string name, string role, string superMarketSection, bool isBasicItem)
+        {
+            this.ID = 0;
+            this.Name = name;
+            this.Unit = unit;
+            this.Quantity = quantity;
+            this.Role = role;
+            this.SuperMarketSection = superMarketSection;
+            this.IsBasicItem = isBasicItem;
+        }
+
+        public Ingredient(string ID, IDBConnection db)
+        {
+            DataTable dT = db.GetIngredients(ID);
+
+
+            
+        }
+
+        public override string ToString()
+        {
+            return this.Quantity.ToString() + " " + this.Unit + " " + this.Name;
         }
 
         // create constructoroverload for db-invocation of ingredient-object 

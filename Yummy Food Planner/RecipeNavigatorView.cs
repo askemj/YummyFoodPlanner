@@ -67,7 +67,7 @@ namespace View
         {
             Console.WriteLine("RecipeNavigaorView: tbSearchfield_TextChanged()-called");
             
-            presenter.SearchForRecipe();
+            presenter.SearchForRecipe(); 
         }
 
         private void lvMenu_SelectedIndexChanged(object sender, EventArgs e)

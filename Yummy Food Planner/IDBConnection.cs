@@ -7,9 +7,9 @@ namespace Model
 {
     public interface IDBConnection
     {
-        public DataTable GetRecipeInfo(string recipeID);
-        public DataTable GetRecipeTags(string recipeID);
-        public DataTable GetIngredients(string recipeID);
+        public DataTable GetRecipeInfo(int recipeID);
+        public DataTable GetRecipeTags(int recipeID);
+        public DataTable GetIngredients(int recipeID);
 
         public List<SimpleRecipe> GetMenu(string searchKey);
     }
