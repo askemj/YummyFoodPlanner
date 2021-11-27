@@ -10,10 +10,9 @@ namespace Model
         public event EventHandler<RecipeEventArgs> RecipeUpdated;     
         public List<Ingredient> Ingredients { get; set; }
 
-        public Recipe(string id, IDBConnection db) : base(id, db)
-        {   
-            // skab database fkt til ingredienser 
-            //this.initiate(existsInDB, notes, ingredients, id, name, prepTime, totTime, nServings, recipeType, tags);
+        public Recipe()
+        {
+            // måske jeg skal bruges til at kunne lave objekt hvorfra man kan abonnere på recipeUpdated events fra INDEN man updater sit objekt
         }
 
         public Recipe(string recipeName)
@@ -23,7 +22,7 @@ namespace Model
             //this.initiate(existsInDB, notes, ingredients, id, name, prepTime, totTime, nServings, recipeType, tags);
         }
 
-        public Recipe(int recipeID, IDBConnection db) : base(recipeID, db)
+        new public void LoadFromDB(int recipeID, IDBConnection db) 
         {
             //// general recipe info 
             //DataTable dt = db.GetRecipeInfo(recipeID);
@@ -43,6 +42,7 @@ namespace Model
             //    tagList.Add(dt_tags.Rows[i]["tag_tekst"].ToString());
             //}
 
+            base.LoadFromDB(recipeID, db);
 
             // Ingredients 
             DataTable dT_ingredients = db.GetIngredients(recipeID);

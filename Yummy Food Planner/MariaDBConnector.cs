@@ -207,16 +207,17 @@ namespace Model
 
             DataTable dT = SQLQuery(sqlString);
 
-            List<string> menuIDs = new List<string>();
+            List<int> menuIDs = new List<int>();
             for (int i = 0; i < dT.Rows.Count; i++)
             {
-                menuIDs.Add(dT.Rows[i]["ret_id"].ToString());
+                menuIDs.Add(Convert.ToInt32(dT.Rows[i]["ret_id"]));
             }
 
             List<SimpleRecipe> menuList = new List<SimpleRecipe>();
-            foreach (string recipeID in menuIDs)
+            foreach (int recipeID in menuIDs)
             {
-                SimpleRecipe recipe = new SimpleRecipe(recipeID, this);
+                SimpleRecipe recipe = new SimpleRecipe();
+                recipe.LoadFromDB(recipeID, this);
                 menuList.Add(recipe);
             }
             return menuList;    

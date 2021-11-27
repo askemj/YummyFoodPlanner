@@ -16,12 +16,16 @@ namespace Model
         public string RecipeType { get; set; }
         public List<string> Tags { get; set; }
 
+        public SimpleRecipe()
+        {
+        }
+
         public SimpleRecipe(int id, string name, string notes, int prepTime, int totTime, int nServings, string recipeType, List<string> tags)
         {
             this.initiate(id, name, notes, prepTime, totTime, nServings, recipeType, tags);
         }
 
-        public SimpleRecipe(int id, IDBConnection db)
+        public void LoadFromDB(int id, IDBConnection db)
         {
             DataTable dt = db.GetRecipeInfo(id);
 
@@ -42,10 +46,6 @@ namespace Model
 
             this.initiate(recipeid, name, notes, prepTime, totTime, nServings, recipeType, tagList);
             return;
-        }
-
-        public SimpleRecipe()
-        {
         }
 
         public void initiate(int id, string name, string notes, int prepTime, int totTime, int nServings, string recipeType, List<string> tags)
