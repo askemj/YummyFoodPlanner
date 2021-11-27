@@ -35,38 +35,43 @@
             // 
             // tbRecipe
             // 
-            this.tbRecipe.Location = new System.Drawing.Point(185, 22);
+            this.tbRecipe.Location = new System.Drawing.Point(162, 16);
+            this.tbRecipe.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbRecipe.Multiline = true;
             this.tbRecipe.Name = "tbRecipe";
-            this.tbRecipe.Size = new System.Drawing.Size(182, 165);
+            this.tbRecipe.Size = new System.Drawing.Size(160, 125);
             this.tbRecipe.TabIndex = 1;
             // 
             // tbSearchField
             // 
-            this.tbSearchField.Location = new System.Drawing.Point(12, 160);
+            this.tbSearchField.Location = new System.Drawing.Point(10, 120);
+            this.tbSearchField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbSearchField.Name = "tbSearchField";
-            this.tbSearchField.Size = new System.Drawing.Size(151, 27);
+            this.tbSearchField.Size = new System.Drawing.Size(133, 23);
             this.tbSearchField.TabIndex = 2;
             this.tbSearchField.TextChanged += new System.EventHandler(this.tbSearchField_TextChanged);
             // 
             // lbMenu
             // 
             this.lbMenu.FormattingEnabled = true;
-            this.lbMenu.ItemHeight = 20;
-            this.lbMenu.Location = new System.Drawing.Point(13, 22);
+            this.lbMenu.ItemHeight = 15;
+            this.lbMenu.Location = new System.Drawing.Point(11, 16);
+            this.lbMenu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.lbMenu.Name = "lbMenu";
-            this.lbMenu.Size = new System.Drawing.Size(150, 124);
+            this.lbMenu.Size = new System.Drawing.Size(132, 94);
             this.lbMenu.TabIndex = 3;
+            this.lbMenu.SelectedIndexChanged += new System.EventHandler(this.lbMenu_SelectedIndexChanged);
             // 
             // RecipeNavigatorView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lbMenu);
             this.Controls.Add(this.tbSearchField);
             this.Controls.Add(this.tbRecipe);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "RecipeNavigatorView";
-            this.Size = new System.Drawing.Size(383, 214);
+            this.Size = new System.Drawing.Size(335, 160);
             this.ResumeLayout(false);
             this.PerformLayout();
 

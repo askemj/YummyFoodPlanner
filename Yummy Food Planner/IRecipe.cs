@@ -17,6 +17,8 @@ namespace Model
         int NumberOfServings { get; set; }
         string RecipeType { get; set; }
         List<string> Tags { get; set; }
-        List<Ingredient> Ingredients { get; set; } 
+        List<Ingredient> Ingredients { get; set; }
+
+        public void LoadFromDB(int recipeID, IDBConnection db);
     }
 }

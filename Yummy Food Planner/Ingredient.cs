@@ -34,13 +34,10 @@ namespace Model
             this.IsBasicItem = isBasicItem;
         }
 
-        public Ingredient(string ID, IDBConnection db)
-        {
-            DataTable dT = db.GetIngredients(ID);
-
-
-            
-        }
+        //public Ingredient(int ID, IDBConnection db)
+        //{
+        //    DataTable dT = db.GetIngredients(ID);          
+        //}
 
         public override string ToString()
         {

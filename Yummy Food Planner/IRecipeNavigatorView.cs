@@ -7,9 +7,9 @@ namespace View
 {
     public interface IRecipeNavigatorView
     {
+        event EventHandler<RecipeViewEventArgs> RecipeSelectionChanged;
         List<string> ListOfRecipes { get; set; }
         string SearchField { get;}
-
         string Name { get; set; }
         string Notes { get; set; }
         int PreparationTime { get; set; }
@@ -18,6 +18,7 @@ namespace View
         string RecipeType { get; set; }
         List<string> Tags { get; set; }
         List<Ingredient> Ingredients { get; set; }
+        public void DisplayRecipe(IRecipe _recipe); 
 
     }
 }

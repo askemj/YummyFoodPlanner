@@ -102,7 +102,7 @@ namespace Model
             return loginCredentials;
         }
 
-        public DataTable SQLQuery(string queryString)
+        private DataTable SQLQuery(string queryString)
         {
             DataTable dataTable = new DataTable();
             try
@@ -135,7 +135,7 @@ namespace Model
                             $"WHERE Ret.Tilberedningstid_tilberedningstid_id = Tilberedningstid.tilberedningstid_id " +
                             $"AND Ret.Arbejdstid_arbejdstid_id = Arbejdstid.arbejdstid_id " +
                             $"AND Ret.Opskriftstype_opskriftstype_id = Opskriftstype.opskriftstype_id " +
-                            $"AND Ret.ret_ID = \"{recipeID.ToString()}\";";
+                            $"AND Ret.ret_ID = {recipeID.ToString()};";
             DataTable dT = SQLQuery(query);
             return dT;
         }
@@ -153,26 +153,27 @@ namespace Model
 
         public DataTable GetIngredients(int recipeID)
         {
-            string query = "SELECT Vare.vare_id, RetVare.maengde, Enhed.enhed_navn, Vare.vare_navn, Varetype.varetype_tekst, Vare.basisvare " + //, Vare.basisvare " + 
-                                    "FROM Ret, RetVare, Enhed, Vare, Varetype " +
-                                    "WHERE Ret.ret_id = RetVare.Ret_ret_id " +
-                                    "AND Vare.vare_id = RetVare.Vare_vare_id " +
-                                    "AND Enhed.enhed_id = RetVare.Enhed_enhed_id " +
-                                    "AND Vare.Varetype_varetype_id = Varetype.varetype_id " +
-                                    $"AND Ret.ret_id = \"{recipeID.ToString()}\";";
+            string query = $"SELECT Vare.vare_id, RetVare.maengde, Enhed.enhed_navn, Vare.vare_navn, Varetype.varetype_tekst, Vare.basisvare " + 
+                                    $"FROM Ret, RetVare, Enhed, Vare, Varetype " +
+                                    $"WHERE Ret.ret_id = RetVare.Ret_ret_id " +
+                                    $"AND Vare.vare_id = RetVare.Vare_vare_id " +
+                                    $"AND Enhed.enhed_id = RetVare.Enhed_enhed_id " +
+                                    $"AND Vare.Varetype_varetype_id = Varetype.varetype_id " +
+                                    $"AND Ret.ret_id = {recipeID.ToString()};"; // har nu slettet \" så det ikke giver en string med "3" i fx men er det korrekt? 
             DataTable dT = SQLQuery(query);
+
 
             dT.Columns["vare_id"].ColumnName = "ID";
             dT.Columns["maengde"].ColumnName = "Quantity";
             dT.Columns["enhed_navn"].ColumnName = "Unit";
             dT.Columns["vare_navn"].ColumnName = "Name";
-            dT.Columns["vare_type"].ColumnName = "SuperMarketSection";
+            dT.Columns["varetype_tekst"].ColumnName = "SuperMarketSection";
             dT.Columns["basisvare"].ColumnName = "IsBasicItem";
             DataColumn dC = new DataColumn("Role", typeof(string) );
             dC.DefaultValue = "hovedingrediens";
             dT.Columns.Add(dC);
 
-            return new DataTable();
+            return dT;
         }
 
         public List<SimpleRecipe> GetMenu(string searchKey)
@@ -190,20 +191,6 @@ namespace Model
             $"WHERE Ret.ret_id = RetVare.Ret_ret_id  " +
             $"AND Vare.vare_id = RetVare.Vare_vare_id  " +
             $"AND Vare.vare_navn LIKE \"%{searchKey}%\";";
-
-            //string sqlString = $"SELECT Ret.ret_navn FROM Ret, Tag, RetTag " + // NB makes many calls to format.string and many strings in memory :(
-            //$"WHERE Ret.ret_id = RetTag.Ret_ret_id " +
-            //$"AND Tag.tag_id = RetTag.Tag_tag_id " +
-            //$"AND Tag.tag_tekst LIKE \"%{searchKey}%\" " +
-            //$"UNION  " +
-            //$"SELECT Ret.ret_navn FROM Ret " +
-            //$"WHERE ret_navn LIKE \"%{searchKey}% \" " +
-            //$"UNION  " +
-            //$"SELECT Ret.ret_navn  " +
-            //$"FROM Ret, Vare, RetVare  " +
-            //$"WHERE Ret.ret_id = RetVare.Ret_ret_id  " +
-            //$"AND Vare.vare_id = RetVare.Vare_vare_id  " +
-            //$"AND Vare.vare_navn LIKE \"%{searchKey}%\";";
 
             DataTable dT = SQLQuery(sqlString);
 
