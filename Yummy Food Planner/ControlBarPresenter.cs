@@ -7,11 +7,13 @@ using System.Windows.Forms;
 
 namespace Presenter
 {
-    class ControlBarPresenter 
+    class ControlBarPresenter : IControlBarPresenter
     {
         IControlBarView view;
         IRecipe recipe;
-        IShoppingList shoppingList; 
+        IShoppingList shoppingList;
+        public event EventHandler<RecipeEventArgs> RecipeToMealRequested; 
+        //IMealCustomiserPresenter mealCustomiserPresenter;
         public ControlBarPresenter(IControlBarView _view, IRecipe _recipe, IShoppingList _shoppingList)
         {
             this.view = _view;
@@ -27,7 +29,14 @@ namespace Presenter
 
         private void OnAddToMealPlanClicked(object sender, EventArgs e)
         {
-            MessageBox.Show("OnAddToMealPlanClicked....");
+            if (this.recipe.Name != null)
+            {
+                RecipeToMealRequested(this, new RecipeEventArgs(this.recipe));
+            }
+            else
+            {
+                MessageBox.Show("No recipe is selected ...");
+            }            
         }
     }
 }

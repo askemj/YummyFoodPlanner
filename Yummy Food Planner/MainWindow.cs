@@ -19,6 +19,7 @@ namespace View
         private readonly Menu menu;
         private RecipeNavigatorPresenter recipeNavigatorPresenter;
         private ControlBarPresenter controlBarPresenter; 
+        private MealCustomiserPresenter mealCustomiserPresenter;
         private MariaDBConnector dbConnection;
         public MainWindow()
         {
@@ -37,6 +38,10 @@ namespace View
             //Controlbar MVP
             this.controlBarPresenter = new ControlBarPresenter(controlBarView, this.recipe, this.shoppingList);
             //controlBarView.Setup(shoppingList);
+
+            //MealCustomiser MVP 
+            this.mealCustomiserPresenter = new MealCustomiserPresenter(mealCustomiserView, this.controlBarPresenter, shoppingList);
+
 
 
         }

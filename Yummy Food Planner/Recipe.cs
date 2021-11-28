@@ -75,8 +75,8 @@ namespace Model
 
     public class RecipeEventArgs : EventArgs
     {
-        public Recipe recipe { get; set; }
-        public RecipeEventArgs(Recipe _recipe)
+        public IRecipe recipe { get; set; }
+        public RecipeEventArgs(IRecipe _recipe)
         {
             this.recipe = _recipe;
         }
