@@ -30,30 +30,41 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.recipeNavigatorView = new View.RecipeNavigatorView();
+            this.controlBarView = new View.ControlBarView();
             this.SuspendLayout();
             // 
             // recipeNavigatorView
             // 
             this.recipeNavigatorView.Ingredients = null;
             this.recipeNavigatorView.ListOfRecipes = ((System.Collections.Generic.List<string>)(resources.GetObject("recipeNavigatorView.ListOfRecipes")));
-            this.recipeNavigatorView.Location = new System.Drawing.Point(221, 163); 
+            this.recipeNavigatorView.Location = new System.Drawing.Point(193, 122);
+            this.recipeNavigatorView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.recipeNavigatorView.Name = "recipeNavigatorView";
             this.recipeNavigatorView.Notes = null;
             this.recipeNavigatorView.NumberOfServings = 0;
             this.recipeNavigatorView.PreparationTime = 0;
             this.recipeNavigatorView.RecipeType = null;
-            this.recipeNavigatorView.Size = new System.Drawing.Size(479, 268);
+            this.recipeNavigatorView.Size = new System.Drawing.Size(419, 201);
             this.recipeNavigatorView.TabIndex = 0;
             this.recipeNavigatorView.Tags = null;
             this.recipeNavigatorView.TotalTime = 0;
             this.recipeNavigatorView.Load += new System.EventHandler(this.recipeNavigatorView1_Load);
             // 
+            // controlBarView
+            // 
+            this.controlBarView.Location = new System.Drawing.Point(113, 298);
+            this.controlBarView.Name = "controlBarView";
+            this.controlBarView.Size = new System.Drawing.Size(516, 54);
+            this.controlBarView.TabIndex = 1;
+            // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(881, 573);
+            this.ClientSize = new System.Drawing.Size(771, 430);
+            this.Controls.Add(this.controlBarView);
             this.Controls.Add(this.recipeNavigatorView);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainWindow";
             this.Text = "Yummy Food Planner";
             this.ResumeLayout(false);
@@ -63,6 +74,7 @@
         #endregion
 
         private View.RecipeNavigatorView recipeNavigatorView;
+        private ControlBarView controlBarView;
     }
 }
 

@@ -17,7 +17,8 @@ namespace View
         private readonly ShoppingList shoppingList;
         private readonly Recipe recipe;
         private readonly Menu menu;
-        private RecipeNavigatorPresenter recipeNavigatorPresenter; 
+        private RecipeNavigatorPresenter recipeNavigatorPresenter;
+        private ControlBarPresenter controlBarPresenter; 
         private MariaDBConnector dbConnection;
         public MainWindow()
         {
@@ -27,9 +28,17 @@ namespace View
             InitializeComponent();
 
             dbConnection = new MariaDBConnector();
+
+            //RecipeNavigator MVP
             recipeNavigatorPresenter = new RecipeNavigatorPresenter(this.recipeNavigatorView, this.menu, this.recipe, this.dbConnection);
             this.recipeNavigatorView.Setup(recipeNavigatorPresenter, this.recipe, this.menu);
             SubscribeToMenuEvents();
+
+            //Controlbar MVP
+            this.controlBarPresenter = new ControlBarPresenter(controlBarView, this.recipe, this.shoppingList);
+            //controlBarView.Setup(shoppingList);
+
+
         }
 
         private void SubscribeToMenuEvents()
